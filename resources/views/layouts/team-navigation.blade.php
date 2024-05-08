@@ -13,12 +13,17 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('teams.show', $team->id)" :active="request()->routeIs('teams.show')">
-                        {{ __('Team') }}
+                        {{ __('Apžvalga') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('teams.deposits', $team->id)" :active="request()->routeIs('teams.deposits')">
-                        {{ __('Deposits') }}
+                        {{ __('Pakuotės') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('teams.messages', $team->id)" :active="request()->routeIs('teams.messages')">
+                        {{ __('Žinutės') }}
                     </x-nav-link>
                 </div>
             </div>

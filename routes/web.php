@@ -5,6 +5,7 @@ use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\NewsPostController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-teams/{id}', [TeamsController::class, 'show'])->name('teams.show');
     Route::get('/my-teams/{id}/edit', [TeamsController::class, 'show'])->name('teams.edit');
     Route::get('/my-teams/{id}/deposits', [DepositController::class, 'index'])->name('teams.deposits');
+    Route::get('/my-teams/{id}/messages', [MessageController::class, 'index'])->name('teams.messages');
+    Route::get('/my-teams/{id}/messages/dynamic', [MessageController::class, 'dynamic'])->name('teams.messages-dynamic');
+    Route::post('/my-teams/{id}/messages/store', [MessageController::class, 'store'])->name('teams.messages-store');
 
     //test route
     Route::get('/deposits/{depositId}/units', [DepositController::class, 'getUnits']);
