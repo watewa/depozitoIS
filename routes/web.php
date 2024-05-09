@@ -41,7 +41,7 @@ Route::get('/news/{id}', [NewsPostController::class, 'show'])->name('news.show')
 Route::get('/teams', [TeamsController::class, 'guest'])->name('teams.guest');
 
 // komandos display
-Route::get('/teams/{id}', [TeamsController::class, 'show'])->name('teams.show');
+Route::get('/teams/{id}', [TeamsController::class, 'showGuest'])->name('teams.showGuest');
 
 // visu pakuociu sarasas
 Route::get('/deposits', [DepositController::class, 'guest'])->name('deposits.guest');
@@ -49,6 +49,9 @@ Route::get('/deposits', [DepositController::class, 'guest'])->name('deposits.gue
 // qr kodo pateikiamas psl
 Route::get('/units/{hash}', [UnitController::class, 'show'])->name('units.show');
 
+
+Route::post('/cr', [UnitController::class, 'encryptAll'])->name('cr');
+Route::get('/c', [UnitController::class, 'c'])->name('crypt');
 // depozitas pagal id
 //
 

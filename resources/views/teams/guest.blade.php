@@ -30,7 +30,7 @@
                             <div class="m-3">{{ $teams->onEachSide(1)->links() }}</div>
                             
                             @foreach ($teams as $team)
-                                <a href="{{ route('teams.show', $team->id) }}" >
+                                <a href="{{ route('teams.showGuest', $team->id) }}" >
                                     <div class="d-flex justify-content-between align-items-center border border-light rounded p-3 m-3 shadow-sm">
                                         <div>
                                             {{ $team->name }}
@@ -73,7 +73,7 @@
                             <div class="m-3">{{ $teams->onEachSide(1)->links() }}</div>
 
                             @foreach ($teams as $team)
-                                <a href="{{ route('teams.show', $team->id) }}" >
+                                <a href="{{ route('teams.showGuest', $team->id) }}" >
                                     <div class="d-flex justify-content-between align-items-center border border-light rounded p-3 m-3 shadow-sm">
                                         <div>
                                             {{ $team->name }}

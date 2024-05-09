@@ -16,9 +16,8 @@
                         <a class="" data-bs-toggle="modal" data-bs-target="#Modal-{{ $deposit->id }}" 
                                                 data-bs-id="{{ $deposit->id }}"
                                                 data-bs-name="{{ $deposit->name }}"
-                                                data-bs-team_id="{{ $deposit->team_id }}"
+                                                data-bs-desc="{{ $deposit->description }}"
                                                 data-bs-created_at="{{ $deposit->created_at }}"
-                                                data-bs-updated_at="{{ $deposit->updated_at }}"
                                                 >
                             <div class="d-flex align-items-center justify-content-left border border-light rounded shadow-sm m-3">
                                 <div class="">
@@ -55,16 +54,17 @@
                                 </div>
                                 <div class="modal-body a">
                                     <p><strong>id: </strong><span class="modal-id"></span></p>
-                                    <p><strong>name: </strong><span class="modal-name"></span></p>
-                                    <p><strong>team_id: </strong><span class="modal-team_id"></span></p>
-                                    <p><strong>created_at: </strong><span class="modal-created_at"></span></p>
-                                    <p><strong>updated_at: </strong><span class="modal-updated_at"></span></p>
+                                    <p><strong>Pavadinimas: </strong><span class="modal-name"></span></p>
+                                    <p><strong>Aprašymas: </strong><span class="modal-desc"></span></p>
+                                    <p><strong>Sukurta: </strong><span class="modal-created_at"></span></p>
                                 </div>
                                 <div class="modal-body b" style="display: none;">
                                     
                                 </div>
                                 <div class="modal-footer justify-content-between">
+                                    @if($deposit->type != 0)
                                     <button id="content-button" class="btn btn-primary" onclick='changeBody(event, "{{ $deposit->id }}")'>Daugiau</button>
+                                    @endif
                                     <button class="btn btn-danger" data-bs-dismiss="modal">Uždaryti</button>
                                 </div>
                             </div>
@@ -87,24 +87,21 @@
             // Extract info from data-bs-* attributes
             var id = button.getAttribute('data-bs-id')
             var name = button.getAttribute('data-bs-name')
-            var team_id = button.getAttribute('data-bs-team_id')
+            var desc = button.getAttribute('data-bs-desc')
             var created_at = button.getAttribute('data-bs-created_at')
-            var updated_at = button.getAttribute('data-bs-updated_at')
 
             // Update the modal's content.
             var modalTitle = event.target.querySelector('.modal-title')
             var modalId = event.target.querySelector('.modal-id')
             var modalName = event.target.querySelector('.modal-name')
-            var modalTeam_id = event.target.querySelector('.modal-team_id')
+            var modalDesc = event.target.querySelector('.modal-desc')
             var modalCreated_at = event.target.querySelector('.modal-created_at')
-            var modalUpdated_at = event.target.querySelector('.modal-updated_at')
 
             modalTitle.textContent = name;
             modalId.textContent = id;
             modalName.textContent = name;
-            modalTeam_id.textContent = team_id;
+            modalDesc.textContent = desc;
             modalCreated_at.textContent = created_at;
-            modalUpdated_at.textContent = updated_at;
 
         })}
 
@@ -154,7 +151,7 @@
                         progressContainer.classList.add('col-8')
 
                         var qr = document.createElement('div');
-                        qr.innerHTML = '<a href="http://127.0.0.1:8000/units/' + unit.link_ext + '"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg><img src="" /></a>';
+                        qr.innerHTML = '<a href="' + "{{ url('/units') }}" + '/' + unit.link_ext + '"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg><img src="" /></a>';
                         qr.classList.add('col-3')
 
 

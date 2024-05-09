@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Crypt;
 class Unit extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'link_ext',
+    ];
 
     public function setLinkExtAttribute()
     {
