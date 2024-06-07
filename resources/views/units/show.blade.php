@@ -1,7 +1,7 @@
 <x-qr-layout>
     <div>
         <a href="http://127.0.0.1:8000/units/{{ $unit->link_ext }}">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://127.0.0.1:8000/units/{{ $unit->link_ext }}"/>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://127.0.0.1:8000/units/{{ $unit->link_ext }}"/>
         </a>
     </div>
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white  shadow-md overflow-hidden sm:rounded-lg">

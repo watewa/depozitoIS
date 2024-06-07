@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
 class Unit extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'link_ext',
-    ];
+    protected $fillable = ['link_ext', 'state', 'deposit_id'];
 
-    public function setLinkExtAttribute()
+    public function setLinkExtAttribute($value)
     {
-        Crypt::encryptString($this->id . ' ' . $this->deposit_id);
+        $this->attributes['link_ext'] = '/units/'.Crypt::encryptString($value);
+    }
+
+    public function setStateAttribute($value)
+    {
+        $this->attributes['state'] = $value;
     }
 
     public function deposit()

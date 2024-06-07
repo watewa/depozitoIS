@@ -12,15 +12,10 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- slick css for slideshow -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-        <style>
-            .paragraph::first-letter {
-                font-size: 200%;
-                font-weight: bold;
-                line-height: .75;
-                text-transform: uppercase;
-            }
-        </style>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -43,5 +38,66 @@
             </main>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- add jquery for slideshow -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Add Slick JS for slideshow -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.news-slider').slick({
+                    autoplay: true,
+                    autoplaySpeed: 7000,
+                    arrows: true,
+                    dots: true,
+                    draggable: false,
+                });
+            });
+        </script>
+        <script src="https://unpkg.com/bigchaindb-driver@4.2.0/dist/browser/bigchaindb-driver.window.min.js"></script>
+
+        <!-- JavaScript to intercept form submissions and AJAX requests -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Intercept form submissions
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        const formData = new FormData(form);
+                        var object = {};
+                        formData.forEach((value, key) => object[key] = value);
+                        var json = JSON.stringify(object);
+                        console.log(json);
+                        const method = form.getAttribute('method').toUpperCase();
+                        if (method === 'POST' || method === 'PATCH' || method === 'DELETE') {
+                            sendBigchainDBTransaction(json).then(() => {
+                                form.submit(); // Submit the form after the transaction
+                            });
+                        } else {
+                            form.submit(); // Submit the form normally
+                        }
+                    });
+                });
+
+                // Function to send BigchainDB transaction
+                async function sendBigchainDBTransaction(data) {
+                    const API_PATH = 'http://localhost:9984/api/v1/';
+                    const user = new BigchainDB.Ed25519Keypair();
+                    
+                    const tx = BigchainDB.Transaction.makeCreateTransaction(
+                        { data: data },
+                        { meta: 'empty' },
+                        [BigchainDB.Transaction.makeOutput(
+                            BigchainDB.Transaction.makeEd25519Condition(user.publicKey))
+                        ],
+                        user.publicKey
+                    );
+
+                    const txSigned = BigchainDB.Transaction.signTransaction(tx, user.privateKey);
+                    let conn = new BigchainDB.Connection(API_PATH);
+                    await conn.postTransactionCommit(txSigned);
+                }
+            });
+        </script>
     </body>
 </html>

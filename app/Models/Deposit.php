@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class Deposit extends Model
 {
-    public function team()
+    protected $fillable = ['name', 'description', 'countP', 'countC', 'type', 'units', 'picture'];
+
+    public function teams()
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsToMany(Team::class, 'deposit_team')->withPivot('role')->withTimestamps();
     }
 
     public function units()
@@ -24,9 +26,9 @@ class Deposit extends Model
 
     public function getThumbnailPathAttribute()
     {
-        if ($this->thumbnail != null)
+        if ($this->picture != null)
         {
-           return Storage::url($this->thumbnail);
+           return Storage::url($this->picture);
         }
         else
         {

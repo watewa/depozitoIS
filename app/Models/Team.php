@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Team extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'location', 'city', 'street', 'house_nr', 'zip_code', 'extra_line', 'picture', 'phone', 'email', 'other',];
 
     public function users()
     {
@@ -18,14 +18,29 @@ class Team extends Model
 
     public function deposits()
     {
-        return $this->hasMany(Deposit::class);
+        return $this->belongsToMany(Deposit::class, 'deposit_team')->withPivot('role')->withTimestamps();
+    }
+
+    public function invitedContracts()
+    {
+        return $this->hasMany(Contract::class, 'inviter', 'id');
+    }
+
+    public function receivedContracts()
+    {
+        return $this->hasMany(Contract::class, 'invited', 'id');
+    }
+
+    public function contracts()
+    {
+        return $this->invitedContracts()->union($this->receivedContracts());
     }
 
     public function getTeamPicturePathAttribute()
     {
-        if ($this->profile_picture != null)
+        if ($this->picture != null)
         {
-           return Storage::url($this->profile_picture);
+           return Storage::url($this->picture);
         }
         else
         {

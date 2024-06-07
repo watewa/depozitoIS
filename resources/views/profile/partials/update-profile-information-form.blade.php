@@ -19,7 +19,7 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" onchange="sendBigchainDBTransaction(this.value)" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
@@ -66,13 +66,13 @@
     <script src="https://unpkg.com/bigchaindb-driver@4.2.0/dist/browser/bigchaindb-driver.window.min.js"></script>
 
     <script>
-        const API_PATH = 'https://869a-78-60-212-114.ngrok-free.app/api/v1/'
-
+        // const API_PATH = 'https://869a-78-60-212-114.ngrok-free.app/api/v1/'
+        const API_PATH = 'http://localhost:9984/api/v1/'
         const user = new BigchainDB.Ed25519Keypair()
 
-        function sendBigchainDBTransaction(newName) {
+        function sendBigchainDBTransaction() {
             const tx = BigchainDB.Transaction.makeCreateTransaction(
-                { name: newName },
+                { name: '{!! Auth::user()->name !!}' },
                 { meta: 'empty'},
                 [BigchainDB.Transaction.makeOutput(
                     BigchainDB.Transaction.makeEd25519Condition(user.publicKey))
@@ -85,12 +85,6 @@
             let conn = new BigchainDB.Connection(API_PATH)
 
             conn.postTransactionCommit(txSigned)
-                // .then(res => {
-                //     const elem = document.getElementById('lastTransaction')
-                //     elem.href = API_PATH + 'transactions/' + txSigned.id
-                //     elem.innerText = txSigned.id
-                //     console.log('Transaction', txSigned.id, 'accepted')
-                // })
         }
     </script>
 </section>

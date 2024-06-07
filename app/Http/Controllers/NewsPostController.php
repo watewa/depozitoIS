@@ -68,4 +68,10 @@ class NewsPostController extends Controller
     
         return redirect()->route('news.index', $newspost->id)->with('status', 'newspost-picture-deleted');
     }
+
+    public function contentEdit($id)
+    {
+        $newsPost = NewsPost::find($id);
+        return view('news.content-edit', compact('newsPost'));
+    }
 }

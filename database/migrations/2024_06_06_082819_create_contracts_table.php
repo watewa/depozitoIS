@@ -9,13 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('news_post_pictures', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('news_post_id');
-            $table->foreign('news_post_id')->references('id')->on('news_posts')->onDelete('cascade');
-            $table->string('picture');
+            $table->string('status');
+            $table->foreignId('inviter')->constrained('teams')->onDelete('cascade');
+            $table->foreignId('invited')->constrained('teams')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news_post_pictures');
+        Schema::dropIfExists('contracts');
     }
 };

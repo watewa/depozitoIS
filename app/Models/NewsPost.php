@@ -8,16 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsPost extends Model
 {
-    protected $fillable = ['title', 'content', 'author_id'];
+    protected $fillable = ['title', 'content', 'author_id', 'thumbnail', 'pictures'];
+
+    protected $casts = [
+        'pictures' => 'array'
+    ];
 
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
-    }
-
-    public function pictures()
-    {
-        return $this->hasMany(NewsPostPicture::class);
     }
 
     public function getThumbnailPathAttribute()

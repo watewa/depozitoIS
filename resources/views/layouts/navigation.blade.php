@@ -6,28 +6,28 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center justify-center" style="width: 50px;">
                     <a href="{{ route('news.index') }}" class="h-100 flex items-center justify-center">
-                        <i class="fa fa-home" style="font-size:48px;"></i>
+                        <img src="{{ Storage::url('logo.png') }}" alt="Logo" style="width: 48px; height: 48px;">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:flex mx-3">
                     <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.index')">
                         {{ __('Naujienos') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:flex mx-3">
                     <x-nav-link :href="route('teams.guest')" :active="request()->routeIs('teams.guest')">
                         {{ __('Įstaigos') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:flex mx-3">
                     <x-nav-link :href="route('deposits.guest')" :active="request()->routeIs('deposits.guest')">
                         {{ __('Pakuotės') }}
                     </x-nav-link>
                 </div>
                 @auth
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:flex mx-3 bg-gray-100">
                     <x-nav-link :href="route('teams.index')" :active="request()->routeIs('teams.index')">
                         {{ __('Mano įstaigos') }}
                     </x-nav-link>
@@ -38,6 +38,15 @@
             <!-- Settings Dropdown -->
             @auth
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @if(Auth::user()->role === "admin")
+                    <div class="flex h-16">
+                        <div class="hidden space-x-8 sm:-my-px sm:flex mx-3 bg-gray-100">
+                            <x-nav-link :href="url('/admin')">
+                                {{ __('Administravimas') }}
+                            </x-nav-link>
+                        </div>
+                    </div>
+                @endif
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500  bg-white  hover:text-gray-700  focus:outline-none transition ease-in-out duration-150">

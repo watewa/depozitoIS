@@ -11,12 +11,31 @@ class UnitController extends Controller
 {
     public function show($hash)
     {
-        $decodedText = Crypt::decryptString($hash);
-        $id = explode(' ', $decodedText)[0];
+        $id = Crypt::decryptString($hash);
         $unit = Unit::with('deposit')->findOrFail($id);
 
         return view('units.show', compact('unit'));
     }
+
+    public function update($id)
+    {
+        $unit = Unit::find($id);
+        if($unit->state == 'Prekyboje')
+        {
+            $unit->state = 'Parduotas';
+        }
+        else if($unit->state == 'Parduotas')
+        {
+            $unit->state = 'Grąžintas';
+        }
+        else if($unit->state == 'Grąžintas')
+        {
+            $unit->state = 'Prekyboje';
+        }
+        $unit->save();
+        return redirect()->back();
+    }
+    
 
     public function encryptAll()
     {

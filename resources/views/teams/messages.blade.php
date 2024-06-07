@@ -9,7 +9,7 @@
 @section('content')
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="container-fluid p-3 bg-white shadow-sm" style="max-height: 50vh; overflow: auto;" id="messageContainer">
+                <div class="container-fluid p-3 bg-white shadow-sm rounded" style="max-height: 50vh; overflow: auto;" id="messageContainer">
                     @foreach($messages as $message)
                     @if($message->user_id == Auth::user()->id)
                     <div class="row my-3">

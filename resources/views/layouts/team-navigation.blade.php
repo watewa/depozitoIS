@@ -21,6 +21,13 @@
                         {{ __('Pakuotės') }}
                     </x-nav-link>
                 </div>
+                @if($team->users()->where('user_id', Auth::user()->id)->wherePivot('is_admin', 1)->exists())
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('teams.contracts', $team->id)" :active="request()->routeIs('teams.contracts')">
+                            {{ __('Sutartys') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('teams.messages', $team->id)" :active="request()->routeIs('teams.messages')">
                         {{ __('Žinutės') }}
@@ -49,8 +56,17 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        
+                        @if($team->users()->where('user_id', Auth::user()->id)->wherePivot('is_admin', 1)->exists())
+                        
                         <x-dropdown-link :href="route('teams.edit', $team->id)">
-                            {{ __('Team profile') }}
+                            {{ __('Įstaigos profilis') }}
+                        </x-dropdown-link>
+                        
+                        @endif
+
+                        <x-dropdown-link :href="route('teams.index')">
+                            {{ __('Atgal į įstaigų sąrašą') }}
                         </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>

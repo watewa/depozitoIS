@@ -37,24 +37,20 @@
                         <div class="col">
                             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                                 <div class="block p-6 text-gray-900 ">
-                                <div class="">Kartotinumas:</div>
-                                    @foreach($teamDepositTagsWithCount as $tag)
-                                        <div class="d-inline-flex rounded justify-content-center align-items-center shadow-sm m-1 text-sm" style="background-color:{{ $tag->color }}; color:{{ $tag->textColor() }}; height: 52px; width: 52px;">
-                                            <div class="p-1" style="font-size:48px;">
-                                                {{ $tag->deposit_count }}
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                    <div class="">Kartotinumas:</div>
+                                    <div style="display: flex; justify-content: center; align-items: center; max-width: 100%; max-height: 400px;">
+                                        <canvas id="depositChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row my-3">
+                    <div class="row my-3 " style="max-height: 150px;">
                         <div class="col">
                             <div class="bg-white shadow-sm sm:rounded-lg">
                                 <div class="p-3">Įstaigos nariai:</div>
-                                <div class="block px-6 text-gray-900" style="max-height: 150px; overflow: auto;">
+                                <div class="block px-6 text-gray-900" style="max-height: 112px; overflow: auto;">
                                     @foreach($team->users as $user)
                                         <div class="d-flex m-1">
                                             <div class="flex-shrink-0 h-30 w-30">
@@ -68,16 +64,15 @@
                         </div>
                         <div class="col">
                             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                <div class="block p-6 text-gray-900 ">
+                                <div class="block p-6 text-gray-900 h-100" style="height: 168px;">
                                     <div>Bendrinio tipo pakuočių: </div>
                                     <div style="font-size: 48px;">{{ $countType0 }}</div>
-                                    <div class="text-muted">Vienetų: {{ $totalType0 }}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                <div class="block p-6 text-gray-900 ">
+                                <div class="block p-6 text-gray-900 h-100" style="height: 168px;">
                                     <div>Unikalaus tipo pakuočių: </div>
                                     <div style="font-size: 48px;">{{ $countType1 }}</div>
                                     <div class="text-muted">Vienetų: {{ $totalType1 }}</div>
@@ -88,4 +83,35 @@
                 </div>
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var ctx = document.getElementById('depositChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {!! json_encode($labels) !!},
+                    datasets: [{
+                        label: 'Kartotinumas',
+                        data: {!! json_encode($counts) !!},
+                        backgroundColor: {!! json_encode($colors) !!},
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5
+                            }
+                        }
+                    }
+                }
+        });
+        </script>
 @endsection

@@ -34,5 +34,52 @@
             </main>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="https://unpkg.com/bigchaindb-driver@4.2.0/dist/browser/bigchaindb-driver.window.min.js"></script>
+
+        <!-- JavaScript to intercept form submissions and AJAX requests -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Intercept form submissions
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        const formData = new FormData(form);
+                        var object = {};
+                        formData.forEach((value, key) => object[key] = value);
+                        var json = JSON.stringify(object);
+                        console.log(json);
+                        const method = form.getAttribute('method').toUpperCase();
+                        if (method === 'POST' || method === 'PATCH' || method === 'DELETE') {
+                            sendBigchainDBTransaction(json).then(() => {
+                                form.submit(); // Submit the form after the transaction
+                            });
+                        } else {
+                            form.submit(); // Submit the form normally
+                        }
+                    });
+                });
+
+                // Function to send BigchainDB transaction
+                async function sendBigchainDBTransaction(data) {
+                    const API_PATH = 'http://localhost:9984/api/v1/';
+                    const user = new BigchainDB.Ed25519Keypair();
+                    
+                    const tx = BigchainDB.Transaction.makeCreateTransaction(
+                        { data: data },
+                        { meta: 'empty' },
+                        [BigchainDB.Transaction.makeOutput(
+                            BigchainDB.Transaction.makeEd25519Condition(user.publicKey))
+                        ],
+                        user.publicKey
+                    );
+
+                    const txSigned = BigchainDB.Transaction.signTransaction(tx, user.privateKey);
+                    let conn = new BigchainDB.Connection(API_PATH);
+                    await conn.postTransactionCommit(txSigned);
+                }
+            });
+        </script>
     </body>
 </html>

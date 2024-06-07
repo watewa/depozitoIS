@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -74,7 +76,7 @@ class ProfileController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             $image = $request->file('profile_picture');
-            $path = $image->storeAs('profile_pictures', Str::random(10) . '.' . $image->getClientOriginalExtension(), 'public');
+            $path = $image->storeAs('profile_pictures', Crypt::encryptString(Auth::user()->id) . '.' . $image->getClientOriginalExtension(), 'public');
 
             Auth::user()->update(['profile_picture' => $path]);
         }
@@ -93,5 +95,16 @@ class ProfileController extends Controller
         Auth::user()->update(['profile_picture' => null]);
 
         return Redirect::route('profile.edit')->with('status', 'profile-picture-deleted');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->take(5)
+                    ->get();
+        
+        return response()->json($users);
     }
 }
