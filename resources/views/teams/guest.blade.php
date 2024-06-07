@@ -98,7 +98,7 @@
         {
             if(img)
             {
-                return 'http://127.0.0.1:8000/storage/' + img;
+                return 'https://depozitois.cloud/storage/' + img;
             }
             else
             {

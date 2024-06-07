@@ -13,6 +13,10 @@ class ContractController extends Controller
         $team = Team::find($team_id);
 
         $contractsQuery = Contract::where('status', 'accepted')
+            ->where(function ($query) use ($team_id) {
+                $query->where('invited', $team_id)
+                    ->orWhere('inviter', $team_id);
+            })
             ->where(function ($query) use ($request) 
             {
                 if ($request->has('search')) {

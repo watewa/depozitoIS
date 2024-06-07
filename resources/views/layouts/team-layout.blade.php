@@ -63,7 +63,7 @@
 
                 // Function to send BigchainDB transaction
                 async function sendBigchainDBTransaction(data) {
-                    const API_PATH = 'http://localhost:9984/api/v1/';
+                    const API_PATH = 'https://6bb2-78-60-212-114.ngrok-free.app/api/v1/';
                     const user = new BigchainDB.Ed25519Keypair();
                     
                     const tx = BigchainDB.Transaction.makeCreateTransaction(

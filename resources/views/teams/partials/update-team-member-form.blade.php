@@ -97,7 +97,7 @@
                         li.className = 'list-group-item';
                         let path;
                         if (user.profile_picture) {
-                            path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="http://127.0.0.1:8000/storage/${user.profile_picture}" alt="Profile Picture">`;
+                            path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="https://depozitois.cloud/storage/${user.profile_picture}" alt="Profile Picture">`;
                         } else {
                             path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="https://via.placeholder.com/150?text=${user.name[0]}" alt="Profile Picture">`;
                         }

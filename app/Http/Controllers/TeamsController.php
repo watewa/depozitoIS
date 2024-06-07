@@ -178,7 +178,7 @@ class TeamsController extends Controller
                         ->join('deposit_team', 'deposits.id', '=', 'deposit_team.deposit_id')
                         ->where('deposit_team.team_id', $id)
                         ->where('deposits.type', 0)
-                        ->sum('deposits.count');
+                        ->sum('deposits.countP');
 
         $countType0 = DB::table('deposits')
                         ->join('deposit_team', 'deposits.id', '=', 'deposit_team.deposit_id')
@@ -223,7 +223,25 @@ class TeamsController extends Controller
                   });
         })->withCount('deposit')->get();
 
-        return view('teams.showGuest', compact('team', 'totalType0', 'countType0', 'countType1', 'totalType1', 'teamDepositTags', 'teamDepositTagsWithCount'));
+        // Prepare data for Chart.js
+        $labels = [];
+        $counts = [];
+
+        foreach ($teamDepositTagsWithCount as $tag) {
+            $labels[] = $tag->name;
+            $counts[] = $tag->deposit_count;
+            $colors[] = $tag->color; // Assuming 'color' is the field storing the colors
+        }
+    
+        // Add 'Untagged' label and count to data
+        $labels[] = 'Nežymėta';
+        $counts[] = Deposit::doesntHave('tags')
+            ->join('deposit_team', 'deposits.id', '=', 'deposit_team.deposit_id')
+            ->where('deposit_team.team_id', $id)
+            ->count();
+        $colors[] = '#CCCCCC';
+        
+        return view('teams.showGuest', compact('labels', 'counts', 'colors', 'team', 'totalType0', 'countType0', 'countType1', 'totalType1', 'teamDepositTags', 'teamDepositTagsWithCount'));
     }
 
     public function update($id)

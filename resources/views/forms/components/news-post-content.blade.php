@@ -40,7 +40,7 @@
     <script>
         function setImage(picture) {
             const title = document.createElement('img');
-            title.setAttribute('src', 'http://localhost:8000/storage/' + picture);
+            title.setAttribute('src', 'https://depozitois.cloud/storage/' + picture);
 
             document.getElementById('newsPostContent').appendChild(title);
             updateHiddenInput();

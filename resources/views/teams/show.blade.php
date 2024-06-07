@@ -8,16 +8,6 @@
 
 @section('content')
         <div class="py-12">
-
-        <!-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white mb-3 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="m-3">
-                    <button onclick="saveAsImage()" type="button" class="bg-secondary btn btn-secondary">
-                        Atsisiųsti
-                    </button>
-                </div>
-            </div>
-        </div> -->
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="container-fluid p-0">
                     <div class="row my-3">

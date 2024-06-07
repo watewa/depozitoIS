@@ -63,7 +63,7 @@
     </form>
 
     <!-- NAUDOTI DEJIMUI I BIGCHAIN -->
-    <script src="https://unpkg.com/bigchaindb-driver@4.2.0/dist/browser/bigchaindb-driver.window.min.js"></script>
+    <!-- <script src="https://unpkg.com/bigchaindb-driver@4.2.0/dist/browser/bigchaindb-driver.window.min.js"></script>
 
     <script>
         // const API_PATH = 'https://869a-78-60-212-114.ngrok-free.app/api/v1/'
@@ -86,5 +86,5 @@
 
             conn.postTransactionCommit(txSigned)
         }
-    </script>
+    </script> -->
 </section>

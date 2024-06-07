@@ -192,7 +192,7 @@
                             li.classList.add('list-group-item');
                             let path;
                             if (team.picture) {
-                                path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="http://127.0.0.1:8000/storage/${team.picture}" alt="Thumbnail">`;
+                                path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="https://depozitois.cloud/storage/${team.picture}" alt="Thumbnail">`;
                             } else {
                                 path = `<img style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;" src="https://via.placeholder.com/150?text=${team.name[0]}" alt="Thumbnail">`;
                             }
