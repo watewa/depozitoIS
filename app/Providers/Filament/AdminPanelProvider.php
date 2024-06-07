@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make('Back to App')
-                    ->url(env('APP_URL'))
+                    ->url('https://depozitois.cloud/')
                     ->icon('heroicon-o-home')
                     ->sort(-3)
             ])
